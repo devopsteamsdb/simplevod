@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo-placeholder">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+    </header>
+
+    <div class="video-gallery">
+        {% for video, thumbnail in zip(videos, thumbnails) %}
+        <div class="video-item">
+            <a href="#" onclick="playVideo('{{ url_for('stream_video', filename=video) }}'); return false;">
+                <img src="{{ url_for('static', filename='thumbnails/' + thumbnail) }}" alt="{{ video }}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="video-player" id="video-player">
+        <video id="video-element" controls autoplay loop>
+            <source id="video-source" src="" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <script>
+        function playVideo(videoUrl) {
+            var videoPlayer = document.getElementById('video-player');
+            var videoElement = document.getElementById('video-element');
+            var videoSource = document.getElementById('video-source');
+
+            videoSource.src = videoUrl;
+            videoElement.load();
+            videoElement.play();
+            videoPlayer.style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
